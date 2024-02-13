@@ -15,11 +15,28 @@ public class Main {
     private static Map<String, Map<String, Map<String, String>>> roomSchedules;
     private static List<String> bookingHistory = new ArrayList<>();
     public static void start(){
-        userType();
+        boolean isContinue = true;
+        do{
+            Table(false,"Conference Room Scheduler","1.) Select type of user","2.) Exit");
+            int userInput = Integer.parseInt(validateInput("-> Select your option: ","[12]"));
+            switch (userInput){
+                case 1 -> userType();
+                case 2 -> {
+                    isContinue = false;
+                    System.out.println("Thank you for using our program !");
+                    System.out.println("Exiting Program...");
+                    System.exit(0);
+                }
+                default -> System.out.println("Invalid Option.");
+            }
+        }while(isContinue);
+
+
+
     }
     public static void userType(){
-        Table(true,"User-Type","1.) User","2.) Admin");
-        int user = Integer.parseInt(validateInput("Identify yourself (1,2): ","[12]"));
+        Table(true,"User-Type","1.) User","2.) Admin","3.) Back");
+        int user = Integer.parseInt(validateInput("Identify yourself (1,2): ","[123]"));
         if(user==2){
             String enteredUsername = validateInput("Enter username: ","^[A-Za-z]+$");
             String enteredPassword = validateInput("Enter password: ",".*");
@@ -33,12 +50,14 @@ public class Main {
                 System.out.println(BLUE + "-".repeat(55) + RESET);
                 start();
             }
-        }else{
+        }else if(user==1){
             String enteredUsername = validateInput("Enter username: ","^[A-Za-z]+$");
             System.out.println(BLUE + "-".repeat(50) + RESET);
             System.out.printf(BLUE + " # Welcome %s, How can I assist you today?\n",enteredUsername + RESET);
             //userMenu
             userMenu();
+        }else{
+            start();
         }
     }
     //feature
@@ -61,7 +80,7 @@ public class Main {
                     System.out.println(BLUE + "-".repeat(55) + RESET);
                 }
                 case "c" -> {
-                    start();
+                    userType();
                 }
             }
         }while (isContinue);
@@ -132,7 +151,7 @@ public class Main {
                     displayRoomSchedules(true);
                 }
                 case "d" -> {
-                    start();
+                    userType();
                 }
                 default -> System.out.println(RED + "[Invalid Input] Please select available choices :  A -> D !" + RESET);
             }
